@@ -43,6 +43,7 @@ function smc_check_core_plugin() {
     }
 
     // Check minimum core version required
+    // @phpstan-ignore-next-line - SM_VERSION constant defined in core plugin
     if ( version_compare( SM_VERSION, '0.3.0', '<' ) ) {
         add_action( 'admin_notices', 'smc_outdated_core_notice' );
         deactivate_plugins( plugin_basename( __FILE__ ) );

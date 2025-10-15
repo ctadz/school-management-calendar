@@ -19,5 +19,8 @@ require_once SMC_PLUGIN_DIR . 'includes/class-smc-events-page.php';
 // Load Calendar Page
 require_once SMC_PLUGIN_DIR . 'includes/class-smc-calendar-page.php';
 
+// Load Helper Functions
+require_once SMC_PLUGIN_DIR . 'includes/smc-helpers.php';
+
 // Future: Load enqueue scripts
 // require_once SMC_PLUGIN_DIR . 'includes/smc-enqueue.php';
