@@ -1,0 +1,765 @@
+# Copyright (C) 2025 Ahmed Sebaa
+# This file is distributed under the GPL v2 or later (will change to Proprietary for marketplace).
+msgid ""
+msgstr ""
+"Project-Id-Version: School Management - Calendar & Schedule 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/school-management-calendar\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2025-10-18T13:54:52+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: school-management-calendar\n"
+
+#. Plugin Name of the plugin
+#: school-management-calendar.php
+#: school-management-calendar.php:59
+#: school-management-calendar.php:77
+#: school-management-calendar.php:112
+msgid "School Management - Calendar & Schedule"
+msgstr ""
+
+#. Plugin URI of the plugin
+#: school-management-calendar.php
+msgid "https://github.com/ahmedsebaa/school-management-calendar"
+msgstr ""
+
+#. Description of the plugin
+#: school-management-calendar.php
+msgid "Advanced scheduling and calendar system for School Management plugin. Manage course schedules, events, and timetables."
+msgstr ""
+
+#. Author of the plugin
+#: school-management-calendar.php
+msgid "Ahmed Sebaa"
+msgstr ""
+
+#. Author URI of the plugin
+#: school-management-calendar.php
+msgid "https://github.com/ahmedsebaa"
+msgstr ""
+
+#: includes/class-smc-admin-menu.php:23
+#: includes/class-smc-admin-menu.php:24
+msgid "Calendar"
+msgstr ""
+
+#: includes/class-smc-admin-menu.php:33
+#: includes/class-smc-admin-menu.php:34
+msgid "Schedules"
+msgstr ""
+
+#: includes/class-smc-admin-menu.php:43
+#: includes/class-smc-admin-menu.php:44
+#: includes/class-smc-calendar-page.php:236
+msgid "Events"
+msgstr ""
+
+#: includes/class-smc-calendar-page.php:155
+#: includes/class-smc-events-page.php:111
+#: includes/class-smc-schedules-page.php:106
+msgid "You do not have sufficient permissions to access this page."
+msgstr ""
+
+#: includes/class-smc-calendar-page.php:170
+msgid "School Calendar"
+msgstr ""
+
+#: includes/class-smc-calendar-page.php:179
+msgid "Month"
+msgstr ""
+
+#: includes/class-smc-calendar-page.php:183
+msgid "Week"
+msgstr ""
+
+#: includes/class-smc-calendar-page.php:187
+#: includes/class-smc-schedules-page.php:244
+msgid "Day"
+msgstr ""
+
+#: includes/class-smc-calendar-page.php:194
+#: includes/class-smc-calendar-page.php:550
+msgid "Today"
+msgstr ""
+
+#: includes/class-smc-calendar-page.php:202
+msgid "Add Schedule"
+msgstr ""
+
+#: includes/class-smc-calendar-page.php:206
+msgid "Add Event"
+msgstr ""
+
+#: includes/class-smc-calendar-page.php:229
+msgid "Legend:"
+msgstr ""
+
+#: includes/class-smc-calendar-page.php:232
+msgid "Schedules (Recurring)"
+msgstr ""
+
+#: includes/class-smc-calendar-page.php:293
+msgid "Previous"
+msgstr ""
+
+#: includes/class-smc-calendar-page.php:299
+msgid "Next"
+msgstr ""
+
+#: includes/class-smc-calendar-page.php:353
+msgid "more"
+msgstr ""
+
+#: includes/class-smc-calendar-page.php:357
+#: includes/class-smc-calendar-page.php:563
+#: includes/class-smc-events-page.php:336
+msgid "All Day"
+msgstr ""
+
+#: includes/class-smc-calendar-page.php:421
+msgid "Previous Week"
+msgstr ""
+
+#: includes/class-smc-calendar-page.php:427
+#, php-format
+msgid "%s - %s"
+msgstr ""
+
+#: includes/class-smc-calendar-page.php:435
+msgid "Next Week"
+msgstr ""
+
+#: includes/class-smc-calendar-page.php:443
+#: includes/class-smc-events-page.php:314
+#: includes/class-smc-events-page.php:552
+#: includes/class-smc-schedules-page.php:245
+msgid "Time"
+msgstr ""
+
+#: includes/class-smc-calendar-page.php:544
+msgid "Previous Day"
+msgstr ""
+
+#: includes/class-smc-calendar-page.php:555
+msgid "Next Day"
+msgstr ""
+
+#: includes/class-smc-calendar-page.php:610
+msgid "No Events or Schedules"
+msgstr ""
+
+#: includes/class-smc-calendar-page.php:611
+msgid "This day has no scheduled classes or events."
+msgstr ""
+
+#: includes/class-smc-events-page.php:32
+msgid "Event title is required."
+msgstr ""
+
+#: includes/class-smc-events-page.php:34
+msgid "Event title must be at least 3 characters long."
+msgstr ""
+
+#: includes/class-smc-events-page.php:38
+msgid "Event type is required."
+msgstr ""
+
+#: includes/class-smc-events-page.php:44
+msgid "Invalid event type."
+msgstr ""
+
+#: includes/class-smc-events-page.php:48
+msgid "Event date is required."
+msgstr ""
+
+#: includes/class-smc-events-page.php:53
+msgid "Event date must be in YYYY-MM-DD format."
+msgstr ""
+
+#: includes/class-smc-events-page.php:59
+msgid "Start time is required for timed events."
+msgstr ""
+
+#: includes/class-smc-events-page.php:62
+msgid "End time is required for timed events."
+msgstr ""
+
+#: includes/class-smc-events-page.php:66
+#: includes/class-smc-schedules-page.php:50
+msgid "Start time must be in HH:MM format (e.g., 09:00)."
+msgstr ""
+
+#: includes/class-smc-events-page.php:69
+#: includes/class-smc-schedules-page.php:53
+msgid "End time must be in HH:MM format (e.g., 10:30)."
+msgstr ""
+
+#: includes/class-smc-events-page.php:73
+#: includes/class-smc-schedules-page.php:57
+msgid "End time must be after start time."
+msgstr ""
+
+#: includes/class-smc-events-page.php:79
+msgid "Color must be a valid hex color code (e.g., #3788d8)."
+msgstr ""
+
+#: includes/class-smc-events-page.php:121
+msgid "Event deleted successfully."
+msgstr ""
+
+#: includes/class-smc-events-page.php:123
+msgid "Error deleting event."
+msgstr ""
+
+#: includes/class-smc-events-page.php:139
+msgid "Event updated successfully."
+msgstr ""
+
+#: includes/class-smc-events-page.php:146
+msgid "Event added successfully."
+msgstr ""
+
+#: includes/class-smc-events-page.php:156
+#: includes/class-smc-schedules-page.php:151
+msgid "Please correct the following errors:"
+msgstr ""
+
+#: includes/class-smc-events-page.php:175
+msgid "School Events"
+msgstr ""
+
+#: includes/class-smc-events-page.php:255
+#: includes/class-smc-events-page.php:406
+msgid "Exam"
+msgstr ""
+
+#: includes/class-smc-events-page.php:256
+#: includes/class-smc-events-page.php:407
+msgid "Holiday"
+msgstr ""
+
+#: includes/class-smc-events-page.php:257
+#: includes/class-smc-events-page.php:408
+msgid "Meeting"
+msgstr ""
+
+#: includes/class-smc-events-page.php:258
+#: includes/class-smc-events-page.php:409
+msgid "Special Event"
+msgstr ""
+
+#: includes/class-smc-events-page.php:259
+#: includes/class-smc-events-page.php:410
+msgid "School Closure"
+msgstr ""
+
+#: includes/class-smc-events-page.php:265
+msgid "Events List"
+msgstr ""
+
+#: includes/class-smc-events-page.php:266
+#, php-format
+msgid "Total: %d events"
+msgstr ""
+
+#: includes/class-smc-events-page.php:271
+#: includes/class-smc-events-page.php:470
+msgid "Add New Event"
+msgstr ""
+
+#: includes/class-smc-events-page.php:282
+msgid "Type:"
+msgstr ""
+
+#: includes/class-smc-events-page.php:284
+msgid "All Types"
+msgstr ""
+
+#: includes/class-smc-events-page.php:292
+msgid "From:"
+msgstr ""
+
+#: includes/class-smc-events-page.php:297
+msgid "To:"
+msgstr ""
+
+#: includes/class-smc-events-page.php:301
+msgid "Filter"
+msgstr ""
+
+#: includes/class-smc-events-page.php:302
+msgid "Clear"
+msgstr ""
+
+#: includes/class-smc-events-page.php:311
+msgid "Title"
+msgstr ""
+
+#: includes/class-smc-events-page.php:312
+msgid "Type"
+msgstr ""
+
+#: includes/class-smc-events-page.php:313
+msgid "Date"
+msgstr ""
+
+#: includes/class-smc-events-page.php:315
+#: includes/class-smc-events-page.php:566
+#: includes/class-smc-schedules-page.php:243
+#: includes/class-smc-schedules-page.php:411
+msgid "Course"
+msgstr ""
+
+#: includes/class-smc-events-page.php:316
+msgid "Location"
+msgstr ""
+
+#: includes/class-smc-events-page.php:317
+#: includes/class-smc-schedules-page.php:250
+msgid "Actions"
+msgstr ""
+
+#: includes/class-smc-events-page.php:329
+msgid "Private"
+msgstr ""
+
+#: includes/class-smc-events-page.php:355
+msgid "Are you sure you want to delete this event?"
+msgstr ""
+
+#: includes/class-smc-events-page.php:370
+#: includes/class-smc-schedules-page.php:305
+msgid "« Previous"
+msgstr ""
+
+#: includes/class-smc-events-page.php:371
+#: includes/class-smc-schedules-page.php:306
+msgid "Next »"
+msgstr ""
+
+#: includes/class-smc-events-page.php:384
+msgid "No Events Yet"
+msgstr ""
+
+#: includes/class-smc-events-page.php:385
+msgid "Create your first event to get started."
+msgstr ""
+
+#: includes/class-smc-events-page.php:387
+msgid "Add First Event"
+msgstr ""
+
+#: includes/class-smc-events-page.php:467
+msgid "Back to Events"
+msgstr ""
+
+#: includes/class-smc-events-page.php:470
+msgid "Edit Event"
+msgstr ""
+
+#: includes/class-smc-events-page.php:478
+msgid "Event Information"
+msgstr ""
+
+#: includes/class-smc-events-page.php:482
+msgid "Event Title"
+msgstr ""
+
+#: includes/class-smc-events-page.php:486
+msgid "E.g., \"Final Exam - Mathematics\", \"Summer Holiday\", \"Parent-Teacher Meeting\""
+msgstr ""
+
+#: includes/class-smc-events-page.php:492
+msgid "Event Type"
+msgstr ""
+
+#: includes/class-smc-events-page.php:496
+msgid "Select Type"
+msgstr ""
+
+#: includes/class-smc-events-page.php:508
+msgid "Description"
+msgstr ""
+
+#: includes/class-smc-events-page.php:512
+msgid "Additional details about the event."
+msgstr ""
+
+#: includes/class-smc-events-page.php:518
+msgid "Color"
+msgstr ""
+
+#: includes/class-smc-events-page.php:522
+msgid "Color used to display this event on the calendar."
+msgstr ""
+
+#: includes/class-smc-events-page.php:527
+msgid "Date & Time"
+msgstr ""
+
+#: includes/class-smc-events-page.php:531
+msgid "Event Date"
+msgstr ""
+
+#: includes/class-smc-events-page.php:540
+msgid "All Day Event"
+msgstr ""
+
+#: includes/class-smc-events-page.php:545
+msgid "This event lasts all day"
+msgstr ""
+
+#: includes/class-smc-events-page.php:556
+msgid "to"
+msgstr ""
+
+#: includes/class-smc-events-page.php:562
+msgid "Associated Resources"
+msgstr ""
+
+#: includes/class-smc-events-page.php:570
+msgid "No Course"
+msgstr ""
+
+#: includes/class-smc-events-page.php:577
+msgid "Optional: Link this event to a course (useful for exams)."
+msgstr ""
+
+#: includes/class-smc-events-page.php:583
+#: includes/class-smc-schedules-page.php:246
+#: includes/class-smc-schedules-page.php:430
+msgid "Classroom"
+msgstr ""
+
+#: includes/class-smc-events-page.php:587
+msgid "No Classroom"
+msgstr ""
+
+#: includes/class-smc-events-page.php:597
+msgid "Optional: Specify location/classroom."
+msgstr ""
+
+#: includes/class-smc-events-page.php:603
+#: includes/class-smc-schedules-page.php:247
+#: includes/class-smc-schedules-page.php:453
+msgid "Teacher"
+msgstr ""
+
+#: includes/class-smc-events-page.php:607
+msgid "No Teacher"
+msgstr ""
+
+#: includes/class-smc-events-page.php:614
+msgid "Optional: Assign a teacher to this event."
+msgstr ""
+
+#: includes/class-smc-events-page.php:619
+msgid "Visibility"
+msgstr ""
+
+#: includes/class-smc-events-page.php:623
+msgid "Public Event"
+msgstr ""
+
+#: includes/class-smc-events-page.php:628
+msgid "Visible to students and teachers"
+msgstr ""
+
+#: includes/class-smc-events-page.php:630
+msgid "Uncheck to make this event visible only to administrators."
+msgstr ""
+
+#: includes/class-smc-events-page.php:638
+msgid "Update Event"
+msgstr ""
+
+#: includes/class-smc-events-page.php:645
+#: includes/class-smc-schedules-page.php:575
+msgid "Save & Exit"
+msgstr ""
+
+#: includes/class-smc-events-page.php:651
+#: includes/class-smc-schedules-page.php:581
+msgid "Save & Add New"
+msgstr ""
+
+#: includes/class-smc-events-page.php:658
+#: includes/class-smc-schedules-page.php:588
+msgid "Cancel"
+msgstr ""
+
+#: includes/class-smc-events-page.php:662
+#: includes/class-smc-schedules-page.php:592
+msgid "Required fields"
+msgstr ""
+
+#: includes/class-smc-schedules-page.php:32
+msgid "Course is required."
+msgstr ""
+
+#: includes/class-smc-schedules-page.php:36
+msgid "Valid day of week is required (1-7)."
+msgstr ""
+
+#: includes/class-smc-schedules-page.php:40
+msgid "Start time is required."
+msgstr ""
+
+#: includes/class-smc-schedules-page.php:44
+msgid "End time is required."
+msgstr ""
+
+#: includes/class-smc-schedules-page.php:62
+msgid "Effective from date is required."
+msgstr ""
+
+#: includes/class-smc-schedules-page.php:67
+msgid "Effective from date must be in YYYY-MM-DD format."
+msgstr ""
+
+#: includes/class-smc-schedules-page.php:72
+msgid "Effective until date must be in YYYY-MM-DD format."
+msgstr ""
+
+#: includes/class-smc-schedules-page.php:74
+msgid "Effective until date must be after effective from date."
+msgstr ""
+
+#: includes/class-smc-schedules-page.php:116
+msgid "Schedule deleted successfully."
+msgstr ""
+
+#: includes/class-smc-schedules-page.php:118
+msgid "Error deleting schedule."
+msgstr ""
+
+#: includes/class-smc-schedules-page.php:134
+msgid "Schedule updated successfully."
+msgstr ""
+
+#: includes/class-smc-schedules-page.php:141
+msgid "Schedule added successfully."
+msgstr ""
+
+#: includes/class-smc-schedules-page.php:170
+msgid "Course Schedules"
+msgstr ""
+
+#: includes/class-smc-schedules-page.php:228
+msgid "Schedules List"
+msgstr ""
+
+#: includes/class-smc-schedules-page.php:229
+#, php-format
+msgid "Total: %d schedules"
+msgstr ""
+
+#: includes/class-smc-schedules-page.php:234
+#: includes/class-smc-schedules-page.php:399
+msgid "Add New Schedule"
+msgstr ""
+
+#: includes/class-smc-schedules-page.php:248
+msgid "Effective Period"
+msgstr ""
+
+#: includes/class-smc-schedules-page.php:249
+#: includes/class-smc-schedules-page.php:554
+msgid "Status"
+msgstr ""
+
+#: includes/class-smc-schedules-page.php:267
+msgid "Ongoing"
+msgstr ""
+
+#: includes/class-smc-schedules-page.php:273
+msgid "Active"
+msgstr ""
+
+#: includes/class-smc-schedules-page.php:275
+msgid "Inactive"
+msgstr ""
+
+#: includes/class-smc-schedules-page.php:290
+msgid "Are you sure you want to delete this schedule?"
+msgstr ""
+
+#: includes/class-smc-schedules-page.php:319
+msgid "No Schedules Yet"
+msgstr ""
+
+#: includes/class-smc-schedules-page.php:320
+msgid "Create your first course schedule to get started."
+msgstr ""
+
+#: includes/class-smc-schedules-page.php:322
+msgid "Add First Schedule"
+msgstr ""
+
+#: includes/class-smc-schedules-page.php:396
+msgid "Back to Schedules"
+msgstr ""
+
+#: includes/class-smc-schedules-page.php:399
+msgid "Edit Schedule"
+msgstr ""
+
+#: includes/class-smc-schedules-page.php:407
+msgid "Basic Information"
+msgstr ""
+
+#: includes/class-smc-schedules-page.php:415
+msgid "Select Course"
+msgstr ""
+
+#: includes/class-smc-schedules-page.php:423
+msgid "Manage courses"
+msgstr ""
+
+#: includes/class-smc-schedules-page.php:434
+msgid "No Classroom Assigned"
+msgstr ""
+
+#: includes/class-smc-schedules-page.php:445
+msgid "Optional: Assign to a specific classroom."
+msgstr ""
+
+#: includes/class-smc-schedules-page.php:446
+msgid "Manage classrooms"
+msgstr ""
+
+#: includes/class-smc-schedules-page.php:457
+msgid "Use Course Default Teacher"
+msgstr ""
+
+#: includes/class-smc-schedules-page.php:465
+msgid "Optional: Override course teacher or specify substitute teacher."
+msgstr ""
+
+#: includes/class-smc-schedules-page.php:466
+msgid "Manage teachers"
+msgstr ""
+
+#: includes/class-smc-schedules-page.php:472
+msgid "Schedule Details"
+msgstr ""
+
+#: includes/class-smc-schedules-page.php:476
+msgid "Day of Week"
+msgstr ""
+
+#: includes/class-smc-schedules-page.php:491
+msgid "Start Time"
+msgstr ""
+
+#: includes/class-smc-schedules-page.php:495
+msgid "Class start time (e.g., 09:00)."
+msgstr ""
+
+#: includes/class-smc-schedules-page.php:501
+msgid "End Time"
+msgstr ""
+
+#: includes/class-smc-schedules-page.php:505
+msgid "Class end time (e.g., 10:30)."
+msgstr ""
+
+#: includes/class-smc-schedules-page.php:511
+msgid "Effective From"
+msgstr ""
+
+#: includes/class-smc-schedules-page.php:515
+msgid "Start date for this schedule (e.g., semester start)."
+msgstr ""
+
+#: includes/class-smc-schedules-page.php:521
+msgid "Effective Until"
+msgstr ""
+
+#: includes/class-smc-schedules-page.php:525
+msgid "Optional: End date for this schedule. Leave empty for ongoing schedule."
+msgstr ""
+
+#: includes/class-smc-schedules-page.php:531
+msgid "Recurrence Type"
+msgstr ""
+
+#: includes/class-smc-schedules-page.php:535
+msgid "Weekly"
+msgstr ""
+
+#: includes/class-smc-schedules-page.php:536
+msgid "Bi-weekly"
+msgstr ""
+
+#: includes/class-smc-schedules-page.php:538
+msgid "How often this class repeats."
+msgstr ""
+
+#: includes/class-smc-schedules-page.php:544
+msgid "Notes"
+msgstr ""
+
+#: includes/class-smc-schedules-page.php:548
+msgid "Optional notes about this schedule."
+msgstr ""
+
+#: includes/class-smc-schedules-page.php:559
+msgid "Active (this schedule is currently in effect)"
+msgstr ""
+
+#: includes/class-smc-schedules-page.php:568
+msgid "Update Schedule"
+msgstr ""
+
+#: includes/smc-helpers.php:22
+msgid "Monday"
+msgstr ""
+
+#: includes/smc-helpers.php:23
+msgid "Tuesday"
+msgstr ""
+
+#: includes/smc-helpers.php:24
+msgid "Wednesday"
+msgstr ""
+
+#: includes/smc-helpers.php:25
+msgid "Thursday"
+msgstr ""
+
+#: includes/smc-helpers.php:26
+msgid "Friday"
+msgstr ""
+
+#: includes/smc-helpers.php:27
+msgid "Saturday"
+msgstr ""
+
+#: includes/smc-helpers.php:28
+msgid "Sunday"
+msgstr ""
+
+#: school-management-calendar.php:60
+msgid "requires the core School Management plugin to be installed and activated."
+msgstr ""
+
+#: school-management-calendar.php:61
+msgid "Install Core Plugin"
+msgstr ""
+
+#: school-management-calendar.php:78
+msgid "requires School Management plugin version 1.0.0 or higher. Please update the core plugin."
+msgstr ""
+
+#: school-management-calendar.php:113
+msgid "requires a valid license key to function. Please activate your license."
+msgstr ""
+
+#: school-management-calendar.php:114
+msgid "Activate License"
+msgstr ""

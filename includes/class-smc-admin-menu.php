@@ -21,7 +21,7 @@ class SMC_Admin_Menu {
         add_submenu_page(
             'school-management',
             __( 'Calendar', 'school-management-calendar' ),
-            __( '📅 Calendar', 'school-management-calendar' ),
+            '<span class="dashicons dashicons-calendar" style="font-size: 17px; vertical-align: middle; color: #8e44ad !important;"></span> ' . __( 'Calendar', 'school-management-calendar' ),
             'view_calendar',
             'school-management-calendar',
             [ 'SMC_Calendar_Page', 'render_calendar_page' ]
@@ -31,7 +31,7 @@ class SMC_Admin_Menu {
         add_submenu_page(
             'school-management',
             __( 'Schedules', 'school-management-calendar' ),
-            __( '🕐 Schedules', 'school-management-calendar' ),
+             '<span class="dashicons dashicons-clock" style="font-size: 17px; vertical-align: middle; color: #8e44ad !important;"></span> ' . __( 'Schedules', 'school-management-calendar' ),
             'manage_schedules',
             'school-management-schedules',
             [ 'SMC_Schedules_Page', 'render_schedules_page' ]
@@ -41,7 +41,7 @@ class SMC_Admin_Menu {
         add_submenu_page(
             'school-management',
             __( 'Events', 'school-management-calendar' ),
-            __( '📢 Events', 'school-management-calendar' ),
+            '<span class="dashicons dashicons-megaphone" style="font-size: 17px; vertical-align: middle; color: #c0392b !important;"></span> ' . __( 'Events', 'school-management-calendar' ),
             'manage_events',
             'school-management-events',
             [ 'SMC_Events_Page', 'render_events_page' ]
