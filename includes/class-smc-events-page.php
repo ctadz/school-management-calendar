@@ -106,6 +106,11 @@ class SMC_Events_Page {
      * Render the Events page
      */
     public static function render_events_page() {
+        // Security check
+        if ( ! current_user_can( 'manage_events' ) ) {
+            wp_die( __( 'You do not have sufficient permissions to access this page.', 'school-management-calendar' ) );
+        }
+        
         global $wpdb;
         $table = $wpdb->prefix . 'smc_events';
 

@@ -101,6 +101,11 @@ class SMC_Schedules_Page {
      * Render the Schedules page
      */
     public static function render_schedules_page() {
+        // Security check
+        if ( ! current_user_can( 'manage_schedules' ) ) {
+            wp_die( __( 'You do not have sufficient permissions to access this page.', 'school-management-calendar' ) );
+        }
+        
         global $wpdb;
         $table = $wpdb->prefix . 'smc_schedules';
 

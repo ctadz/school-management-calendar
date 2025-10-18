@@ -150,7 +150,12 @@ class SMC_Calendar_Page {
      * Render the Calendar page
      */
     public static function render_calendar_page() {
-        // Get current view and date
+        // security check
+        if ( ! current_user_can( 'view_calendar' ) ) {
+            wp_die( __( 'You do not have sufficient permissions to access this page.', 'school-management-calendar' ) );
+        }        
+ 
+       // Get current view and date
         $view = $_GET['view'] ?? 'month';
         $date = $_GET['date'] ?? date('Y-m-d');
         

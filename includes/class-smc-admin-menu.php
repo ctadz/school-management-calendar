@@ -22,7 +22,7 @@ class SMC_Admin_Menu {
             'school-management',
             __( 'Calendar', 'school-management-calendar' ),
             __( '📅 Calendar', 'school-management-calendar' ),
-            'manage_options',
+            'view_calendar',
             'school-management-calendar',
             [ 'SMC_Calendar_Page', 'render_calendar_page' ]
         );
@@ -31,8 +31,8 @@ class SMC_Admin_Menu {
         add_submenu_page(
             'school-management',
             __( 'Schedules', 'school-management-calendar' ),
-            __( 'Schedules', 'school-management-calendar' ),
-            'manage_options',
+            __( '🕐 Schedules', 'school-management-calendar' ),
+            'manage_schedules',
             'school-management-schedules',
             [ 'SMC_Schedules_Page', 'render_schedules_page' ]
         );
@@ -41,8 +41,8 @@ class SMC_Admin_Menu {
         add_submenu_page(
             'school-management',
             __( 'Events', 'school-management-calendar' ),
-            __( 'Events', 'school-management-calendar' ),
-            'manage_options',
+            __( '📢 Events', 'school-management-calendar' ),
+            'manage_events',
             'school-management-events',
             [ 'SMC_Events_Page', 'render_events_page' ]
         );
