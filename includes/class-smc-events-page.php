@@ -19,6 +19,7 @@ class SMC_Events_Page {
         $event_type = sanitize_text_field( $post_data['event_type'] ?? '' );
         $event_date = sanitize_text_field( trim( $post_data['event_date'] ?? '' ) );
         $is_all_day = isset( $post_data['is_all_day'] ) ? 1 : 0;
+        $no_courses = isset( $post_data['no_courses'] ) ? 1 : 0;
         $start_time = $is_all_day ? null : sanitize_text_field( trim( $post_data['start_time'] ?? '' ) );
         $end_time = $is_all_day ? null : sanitize_text_field( trim( $post_data['end_time'] ?? '' ) );
         $course_id = ! empty( $post_data['course_id'] ) ? intval( $post_data['course_id'] ) : null;
@@ -90,6 +91,7 @@ class SMC_Events_Page {
                     'start_time' => $start_time,
                     'end_time' => $end_time,
                     'is_all_day' => $is_all_day,
+                    'no_courses' => $no_courses,
                     'course_id' => $course_id,
                     'classroom_id' => $classroom_id,
                     'teacher_id' => $teacher_id,
@@ -205,50 +207,63 @@ class SMC_Events_Page {
         $filter_date_from = $_GET['filter_date_from'] ?? '';
         $filter_date_to = $_GET['filter_date_to'] ?? '';
 
-        // Build query with filters
-        $where = "1=1";
-        $params = [];
+        // Build WHERE clause - SQL and params separately
+        $where_sql_parts = [];
+        $where_params = [];
 
         if ( ! empty( $filter_type ) ) {
-            $where .= " AND e.event_type = %s";
-            $params[] = $filter_type;
+            $where_sql_parts[] = "e.event_type = %s";
+            $where_params[] = $filter_type;
         }
 
         if ( ! empty( $filter_date_from ) ) {
-            $where .= " AND e.event_date >= %s";
-            $params[] = $filter_date_from;
+            $where_sql_parts[] = "e.event_date >= %s";
+            $where_params[] = $filter_date_from;
         }
 
         if ( ! empty( $filter_date_to ) ) {
-            $where .= " AND e.event_date <= %s";
-            $params[] = $filter_date_to;
+            $where_sql_parts[] = "e.event_date <= %s";
+            $where_params[] = $filter_date_to;
         }
+
+        $where_sql = ! empty( $where_sql_parts ) ? 'WHERE ' . implode( ' AND ', $where_sql_parts ) : '';
 
         // Pagination
         $per_page = 20;
         $current_page = isset( $_GET['paged'] ) ? absint( $_GET['paged'] ) : 1;
         $offset = ( $current_page - 1 ) * $per_page;
 
-        $count_query = "SELECT COUNT(*) FROM $events_table e WHERE $where";
-        $total_events = $wpdb->get_var( empty( $params ) ? $count_query : $wpdb->prepare( $count_query, $params ) );
+        // Get total count
+        $count_query = "SELECT COUNT(*) FROM $events_table e $where_sql";
+
+        if ( ! empty( $where_params ) ) {
+            $total_events = $wpdb->get_var( $wpdb->prepare( $count_query, $where_params ) );
+        } else {
+            $total_events = $wpdb->get_var( $count_query );
+        }
         $total_pages = ceil( $total_events / $per_page );
 
         // Get events with related data
-        $query = "SELECT e.*, 
+        $query = "SELECT e.*,
                          c.name as course_name,
                          cr.name as classroom_name,
                          CONCAT(t.first_name, ' ', t.last_name) as teacher_name
-                  FROM $events_table e 
-                  LEFT JOIN $courses_table c ON e.course_id = c.id 
+                  FROM $events_table e
+                  LEFT JOIN $courses_table c ON e.course_id = c.id
                   LEFT JOIN $classrooms_table cr ON e.classroom_id = cr.id
                   LEFT JOIN $teachers_table t ON e.teacher_id = t.id
-                  WHERE $where
-                  ORDER BY e.event_date DESC, e.start_time DESC 
+                  $where_sql
+                  ORDER BY e.event_date DESC, e.start_time DESC
                   LIMIT %d OFFSET %d";
-        
-        $params[] = $per_page;
-        $params[] = $offset;
-        $events = $wpdb->get_results( $wpdb->prepare( $query, $params ) );
+
+        // Merge all parameters
+        $all_params = array_merge( $where_params, array( $per_page, $offset ) );
+
+        if ( ! empty( $all_params ) ) {
+            $events = $wpdb->get_results( $wpdb->prepare( $query, $all_params ) );
+        } else {
+            $events = $wpdb->get_results( $wpdb->prepare( $query, $per_page, $offset ) );
+        }
 
         // Event types
         $event_types = [
@@ -419,6 +434,7 @@ class SMC_Events_Page {
                 'event_type' => sanitize_text_field( $_POST['event_type'] ?? '' ),
                 'event_date' => sanitize_text_field( $_POST['event_date'] ?? '' ),
                 'is_all_day' => isset( $_POST['is_all_day'] ),
+                'no_courses' => isset( $_POST['no_courses'] ),
                 'start_time' => sanitize_text_field( $_POST['start_time'] ?? '' ),
                 'end_time' => sanitize_text_field( $_POST['end_time'] ?? '' ),
                 'course_id' => intval( $_POST['course_id'] ?? 0 ),
@@ -434,6 +450,7 @@ class SMC_Events_Page {
                 'event_type' => $event->event_type,
                 'event_date' => $event->event_date,
                 'is_all_day' => $event->is_all_day,
+                'no_courses' => $event->no_courses,
                 'start_time' => $event->start_time,
                 'end_time' => $event->end_time,
                 'course_id' => $event->course_id,
@@ -450,6 +467,7 @@ class SMC_Events_Page {
                 'event_type' => 'special_event',
                 'event_date' => date( 'Y-m-d' ),
                 'is_all_day' => false,
+                'no_courses' => false,
                 'start_time' => '09:00',
                 'end_time' => '10:00',
                 'course_id' => 0,
@@ -544,6 +562,21 @@ class SMC_Events_Page {
                             <input type="checkbox" id="event_is_all_day" name="is_all_day" value="1" <?php checked( $form_data['is_all_day'] ); ?> />
                             <?php esc_html_e( 'This event lasts all day', 'school-management-calendar' ); ?>
                         </label>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th scope="row">
+                        <label for="event_no_courses"><?php esc_html_e( 'No Courses/Classes', 'school-management-calendar' ); ?></label>
+                    </th>
+                    <td>
+                        <label>
+                            <input type="checkbox" id="event_no_courses" name="no_courses" value="1" <?php checked( $form_data['no_courses'] ); ?> />
+                            <?php esc_html_e( 'No regular courses/classes should occur during this event', 'school-management-calendar' ); ?>
+                        </label>
+                        <p class="description">
+                            <?php esc_html_e( 'When checked, scheduled courses will not be displayed for this date in the calendar and schedules.', 'school-management-calendar' ); ?>
+                        </p>
                     </td>
                 </tr>
 
