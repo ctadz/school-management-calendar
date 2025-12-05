@@ -12,9 +12,11 @@ class SMC_Activator {
     public static function activate() {
         self::create_tables();
         self::set_default_options();
+        self::check_updates(); // Run database updates
         
         // Store version
         update_option( 'smc_version', SMC_VERSION );
+        update_option( 'smc_db_version', '1.1.0' ); // Database version
         
         // Set activation flag
         update_option( 'smc_activated', current_time( 'mysql' ) );
@@ -64,6 +66,7 @@ class SMC_Activator {
             start_time TIME NULL,
             end_time TIME NULL,
             is_all_day TINYINT(1) DEFAULT 0,
+            no_courses TINYINT(1) DEFAULT 0 COMMENT 'If 1, no courses/classes should occur during this event',
             course_id BIGINT UNSIGNED NULL,
             classroom_id BIGINT UNSIGNED NULL,
             teacher_id BIGINT UNSIGNED NULL,
@@ -100,6 +103,62 @@ class SMC_Activator {
             if ( get_option( $key ) === false ) {
                 add_option( $key, $value );
             }
+        }
+    }
+
+    /**
+     * Check and run database updates
+     * This ensures existing installations get new fields
+     */
+    public static function check_updates() {
+        $current_db_version = get_option( 'smc_db_version', '1.0.0' );
+        
+        // Update to 1.1.0 if needed (adds no_courses field)
+        if ( version_compare( $current_db_version, '1.1.0', '<' ) ) {
+            self::update_to_1_1_0();
+            update_option( 'smc_db_version', '1.1.0' );
+        }
+        
+        // Future updates can be added here
+        // Example:
+        // if ( version_compare( $current_db_version, '1.2.0', '<' ) ) {
+        //     self::update_to_1_2_0();
+        //     update_option( 'smc_db_version', '1.2.0' );
+        // }
+    }
+
+    /**
+     * Update database to version 1.1.0
+     * Adds no_courses field to events table for existing installations
+     */
+    private static function update_to_1_1_0() {
+        global $wpdb;
+        
+        $table_events = $wpdb->prefix . 'smc_events';
+        
+        // Check if no_courses column already exists
+        $column_exists = $wpdb->get_results(
+            $wpdb->prepare(
+                "SELECT * FROM INFORMATION_SCHEMA.COLUMNS 
+                 WHERE TABLE_SCHEMA = %s 
+                 AND TABLE_NAME = %s 
+                 AND COLUMN_NAME = 'no_courses'",
+                DB_NAME,
+                $table_events
+            )
+        );
+        
+        // Add column if it doesn't exist
+        if ( empty( $column_exists ) ) {
+            $wpdb->query(
+                "ALTER TABLE $table_events 
+                 ADD COLUMN no_courses TINYINT(1) DEFAULT 0 
+                 COMMENT 'If 1, no courses/classes should occur during this event' 
+                 AFTER is_all_day"
+            );
+            
+            // Log the update (optional, for debugging)
+            error_log( 'SMC: Database updated to 1.1.0 - Added no_courses field to events table' );
         }
     }
 }

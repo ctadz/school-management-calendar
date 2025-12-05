@@ -16,21 +16,44 @@ class SMC_Calendar_Page {
         $classrooms_table = $wpdb->prefix . 'sm_classrooms';
         $teachers_table = $wpdb->prefix . 'sm_teachers';
 
-        $schedules = $wpdb->get_results( $wpdb->prepare( 
-            "SELECT s.*, 
+        // Build WHERE clause with role-based filtering
+        $where_clause = "WHERE s.is_active = 1
+               AND s.effective_from <= %s
+               AND (s.effective_until IS NULL OR s.effective_until >= %s)";
+
+        $query_params = array( $end_date, $start_date );
+
+        // Add teacher filtering for school_teacher role
+        $current_user = wp_get_current_user();
+        if ( in_array( 'school_teacher', $current_user->roles ) ) {
+            // Get teacher_id for current user
+            $teacher_id = $wpdb->get_var( $wpdb->prepare(
+                "SELECT id FROM $teachers_table WHERE user_id = %d",
+                $current_user->ID
+            ) );
+
+            if ( $teacher_id ) {
+                $where_clause .= " AND s.teacher_id = %d";
+                $query_params[] = $teacher_id;
+            } else {
+                // Teacher not found, return empty (shouldn't happen)
+                return array();
+            }
+        }
+        // Admins and school_admin see all schedules (no additional filter)
+
+        $schedules = $wpdb->get_results( $wpdb->prepare(
+            "SELECT s.*,
                     c.name as course_name,
                     cr.name as classroom_name,
                     CONCAT(t.first_name, ' ', t.last_name) as teacher_name
-             FROM $schedules_table s 
-             LEFT JOIN $courses_table c ON s.course_id = c.id 
+             FROM $schedules_table s
+             LEFT JOIN $courses_table c ON s.course_id = c.id
              LEFT JOIN $classrooms_table cr ON s.classroom_id = cr.id
              LEFT JOIN $teachers_table t ON s.teacher_id = t.id
-             WHERE s.is_active = 1
-               AND s.effective_from <= %s
-               AND (s.effective_until IS NULL OR s.effective_until >= %s)
-             ORDER BY s.day_of_week ASC, s.start_time ASC", 
-            $end_date,
-            $start_date
+             $where_clause
+             ORDER BY s.day_of_week ASC, s.start_time ASC",
+            $query_params
         ) );
 
         return $schedules;
@@ -46,19 +69,42 @@ class SMC_Calendar_Page {
         $classrooms_table = $wpdb->prefix . 'sm_classrooms';
         $teachers_table = $wpdb->prefix . 'sm_teachers';
 
-        $events = $wpdb->get_results( $wpdb->prepare( 
-            "SELECT e.*, 
+        // Build WHERE clause with role-based filtering
+        $where_clause = "WHERE e.event_date BETWEEN %s AND %s";
+        $query_params = array( $start_date, $end_date );
+
+        // Add teacher filtering for school_teacher role
+        $current_user = wp_get_current_user();
+        if ( in_array( 'school_teacher', $current_user->roles ) ) {
+            // Get teacher_id for current user
+            $teacher_id = $wpdb->get_var( $wpdb->prepare(
+                "SELECT id FROM $teachers_table WHERE user_id = %d",
+                $current_user->ID
+            ) );
+
+            if ( $teacher_id ) {
+                // Show events assigned to this teacher OR events with no teacher (general events)
+                $where_clause .= " AND (e.teacher_id = %d OR e.teacher_id IS NULL)";
+                $query_params[] = $teacher_id;
+            } else {
+                // Teacher not found, only show general events
+                $where_clause .= " AND e.teacher_id IS NULL";
+            }
+        }
+        // Admins and school_admin see all events (no additional filter)
+
+        $events = $wpdb->get_results( $wpdb->prepare(
+            "SELECT e.*,
                     c.name as course_name,
                     cr.name as classroom_name,
                     CONCAT(t.first_name, ' ', t.last_name) as teacher_name
-             FROM $events_table e 
-             LEFT JOIN $courses_table c ON e.course_id = c.id 
+             FROM $events_table e
+             LEFT JOIN $courses_table c ON e.course_id = c.id
              LEFT JOIN $classrooms_table cr ON e.classroom_id = cr.id
              LEFT JOIN $teachers_table t ON e.teacher_id = t.id
-             WHERE e.event_date BETWEEN %s AND %s
-             ORDER BY e.event_date ASC, e.start_time ASC", 
-            $start_date,
-            $end_date
+             $where_clause
+             ORDER BY e.event_date ASC, e.start_time ASC",
+            $query_params
         ) );
 
         return $events;
@@ -67,8 +113,32 @@ class SMC_Calendar_Page {
     /**
      * Generate schedule instances for a date range
      */
+    /**
+     * Get dates with no_courses events
+     * Returns array of dates where courses should not be displayed
+     */
+    private static function get_no_courses_dates( $start_date, $end_date ) {
+        global $wpdb;
+        $events_table = $wpdb->prefix . 'smc_events';
+        
+        $dates = $wpdb->get_col( $wpdb->prepare( 
+            "SELECT event_date 
+             FROM $events_table 
+             WHERE no_courses = 1 
+               AND event_date BETWEEN %s AND %s", 
+            $start_date,
+            $end_date
+        ) );
+        
+        return $dates;
+    }
+
+
     private static function generate_schedule_instances( $schedules, $start_date, $end_date ) {
         $instances = [];
+        
+        // Get dates with no_courses events (courses should not display on these dates)
+        $no_courses_dates = self::get_no_courses_dates( $start_date, $end_date );
         
         $start = new DateTime( $start_date );
         $end = new DateTime( $end_date );
@@ -81,6 +151,12 @@ class SMC_Calendar_Page {
                 // PHP's N format: 1=Monday, 7=Sunday (matches our DB)
                 if ( $current->format('N') == $schedule->day_of_week ) {
                     $date = $current->format('Y-m-d');
+                    
+                    // Skip this date if it has a no_courses event
+                    if ( in_array( $date, $no_courses_dates ) ) {
+                        $current->modify('+1 day');
+                        continue;
+                    }
                     
                     $instances[] = [
                         'type' => 'schedule',
