@@ -246,39 +246,39 @@ class SMC_Calendar_Page {
             <h1><?php esc_html_e( 'School Calendar', 'school-management-calendar' ); ?></h1>
 
             <!-- View Switcher and Navigation -->
-            <div class="tablenav top" style="display: flex; justify-content: space-between; align-items: center; margin: 20px 0; background: #f9f9f9; padding: 10px; border: 1px solid #ddd;">
-                <div style="display: flex; gap: 10px; align-items: center;">
+            <div class="smc-tablenav-top">
+                <div class="smc-view-switcher">
                     <!-- View Buttons -->
                     <div class="button-group">
-                        <a href="?page=school-management-calendar&view=month&date=<?php echo esc_attr( $date ); ?>" 
+                        <a href="?page=school-management-calendar&view=month&date=<?php echo esc_attr( $date ); ?>"
                            class="button <?php echo $view === 'month' ? 'button-primary' : ''; ?>">
                             <?php esc_html_e( 'Month', 'school-management-calendar' ); ?>
                         </a>
-                        <a href="?page=school-management-calendar&view=week&date=<?php echo esc_attr( $date ); ?>" 
+                        <a href="?page=school-management-calendar&view=week&date=<?php echo esc_attr( $date ); ?>"
                            class="button <?php echo $view === 'week' ? 'button-primary' : ''; ?>">
                             <?php esc_html_e( 'Week', 'school-management-calendar' ); ?>
                         </a>
-                        <a href="?page=school-management-calendar&view=day&date=<?php echo esc_attr( $date ); ?>" 
+                        <a href="?page=school-management-calendar&view=day&date=<?php echo esc_attr( $date ); ?>"
                            class="button <?php echo $view === 'day' ? 'button-primary' : ''; ?>">
                             <?php esc_html_e( 'Day', 'school-management-calendar' ); ?>
                         </a>
                     </div>
 
                     <!-- Today Button -->
-                    <a href="?page=school-management-calendar&view=<?php echo esc_attr( $view ); ?>&date=<?php echo date('Y-m-d'); ?>" 
+                    <a href="?page=school-management-calendar&view=<?php echo esc_attr( $view ); ?>&date=<?php echo date('Y-m-d'); ?>"
                        class="button">
                         <?php esc_html_e( 'Today', 'school-management-calendar' ); ?>
                     </a>
                 </div>
 
                 <!-- Quick Add Buttons -->
-                <div style="display: flex; gap: 5px;">
+                <div class="smc-quick-actions">
                     <a href="?page=school-management-schedules&action=add" class="button">
-                        <span class="dashicons dashicons-calendar-alt" style="vertical-align: middle;"></span>
+                        <span class="dashicons dashicons-calendar-alt"></span>
                         <?php esc_html_e( 'Add Schedule', 'school-management-calendar' ); ?>
                     </a>
                     <a href="?page=school-management-events&action=add" class="button">
-                        <span class="dashicons dashicons-megaphone" style="vertical-align: middle;"></span>
+                        <span class="dashicons dashicons-megaphone"></span>
                         <?php esc_html_e( 'Add Event', 'school-management-calendar' ); ?>
                     </a>
                 </div>
@@ -301,16 +301,16 @@ class SMC_Calendar_Page {
             ?>
 
             <!-- Legend -->
-            <div style="margin-top: 20px; padding: 15px; background: #f9f9f9; border: 1px solid #ddd;">
+            <div class="smc-legend">
                 <strong><?php esc_html_e( 'Legend:', 'school-management-calendar' ); ?></strong>
-                <span style="margin-left: 15px;">
-                    <span style="display: inline-block; width: 12px; height: 12px; background: #0073aa; border-radius: 2px; vertical-align: middle;"></span>
+                <div class="smc-legend-item">
+                    <span class="smc-legend-color smc-legend-schedule"></span>
                     <?php esc_html_e( 'Schedules (Recurring)', 'school-management-calendar' ); ?>
-                </span>
-                <span style="margin-left: 15px;">
-                    <span style="display: inline-block; width: 12px; height: 12px; background: #46b450; border-radius: 2px; vertical-align: middle;"></span>
+                </div>
+                <div class="smc-legend-item">
+                    <span class="smc-legend-color smc-legend-event"></span>
                     <?php esc_html_e( 'Events', 'school-management-calendar' ); ?>
-                </span>
+                </div>
             </div>
         </div>
         <?php
@@ -363,25 +363,25 @@ class SMC_Calendar_Page {
         $days_of_week = smc_get_days_of_week();
         
         ?>
-        <div class="smc-calendar-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <div class="smc-calendar-header">
             <a href="?page=school-management-calendar&view=month&date=<?php echo esc_attr( $prev_month->format('Y-m-d') ); ?>" class="button">
-                <span class="dashicons dashicons-arrow-left-alt2" style="vertical-align: middle;"></span>
+                <span class="dashicons dashicons-arrow-left-alt2"></span>
                 <?php esc_html_e( 'Previous', 'school-management-calendar' ); ?>
             </a>
-            
-            <h2 style="margin: 0;"><?php echo esc_html( $first_day->format('F Y') ); ?></h2>
-            
+
+            <h2><?php echo esc_html( $first_day->format('F Y') ); ?></h2>
+
             <a href="?page=school-management-calendar&view=month&date=<?php echo esc_attr( $next_month->format('Y-m-d') ); ?>" class="button">
                 <?php esc_html_e( 'Next', 'school-management-calendar' ); ?>
-                <span class="dashicons dashicons-arrow-right-alt2" style="vertical-align: middle;"></span>
+                <span class="dashicons dashicons-arrow-right-alt2"></span>
             </a>
         </div>
 
-        <table class="smc-calendar-month" style="width: 100%; border-collapse: collapse; border: 1px solid #ddd;">
+        <table class="smc-calendar-month">
             <thead>
                 <tr>
                     <?php foreach ( $days_of_week as $day_num => $day_name ) : ?>
-                        <th style="padding: 10px; background: #f0f0f1; border: 1px solid #ddd; text-align: center; font-weight: bold;">
+                        <th>
                             <?php echo esc_html( $day_name ); ?>
                         </th>
                     <?php endforeach; ?>
@@ -405,34 +405,37 @@ class SMC_Calendar_Page {
                     $is_current_month = $current->format('m') == $month;
                     $is_today = $current->format('Y-m-d') === date('Y-m-d');
                     $day_items = $items_by_date[ $date_str ] ?? [];
-                    
-                    $style = 'padding: 5px; border: 1px solid #ddd; vertical-align: top; height: 100px; min-width: 120px;';
+
+                    $classes = array();
                     if ( ! $is_current_month ) {
-                        $style .= ' background: #fafafa; color: #999;';
-                    } elseif ( $is_today ) {
-                        $style .= ' background: #fff8e5;';
+                        $classes[] = 'smc-other-month';
                     }
+                    if ( $is_today ) {
+                        $classes[] = 'smc-today';
+                    }
+                    $class_attr = ! empty( $classes ) ? ' class="' . esc_attr( implode( ' ', $classes ) ) . '"' : '';
                     ?>
-                    <td style="<?php echo esc_attr( $style ); ?>">
-                        <div style="font-weight: bold; margin-bottom: 5px; <?php echo $is_today ? 'color: #d63638;' : ''; ?>">
+                    <td<?php echo $class_attr; ?> data-day="<?php echo esc_attr( $current->format('l, F j') ); ?>">
+                        <div class="smc-day-number<?php echo $is_today ? ' today' : ''; ?>">
                             <?php echo esc_html( $current->format('j') ); ?>
                         </div>
-                        
+
                         <?php if ( ! empty( $day_items ) ) : ?>
-                            <div style="font-size: 11px;">
-                                <?php 
+                            <div class="smc-day-items">
+                                <?php
                                 $display_count = 0;
                                 $max_display = 3;
-                                foreach ( $day_items as $item ) : 
+                                foreach ( $day_items as $item ) :
                                     if ( $display_count >= $max_display ) {
                                         $remaining = count( $day_items ) - $max_display;
-                                        echo '<div style="margin-top: 2px; color: #666; font-style: italic;">+' . $remaining . ' ' . esc_html__( 'more', 'school-management-calendar' ) . '</div>';
+                                        echo '<div class="smc-more-items">+' . $remaining . ' ' . esc_html__( 'more', 'school-management-calendar' ) . '</div>';
                                         break;
                                     }
-                                    
+
                                     $time_display = $item['is_all_day'] ? __( 'All Day', 'school-management-calendar' ) : date( 'H:i', strtotime( $item['start_time'] ) );
+                                    $item_type = $item['type'] === 'schedule' ? 'schedule' : 'event';
                                     ?>
-                                    <div style="margin-bottom: 2px; padding: 2px 4px; background: <?php echo esc_attr( $item['color'] ); ?>; color: white; border-radius: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="<?php echo esc_attr( $item['title'] . ' - ' . $time_display ); ?>">
+                                    <div class="smc-calendar-item <?php echo esc_attr( $item_type ); ?>" style="background: <?php echo esc_attr( $item['color'] ); ?>;" title="<?php echo esc_attr( $item['title'] . ' - ' . $time_display ); ?>">
                                         <?php echo esc_html( $time_display . ' ' . $item['title'] ); ?>
                                     </div>
                                     <?php 
@@ -491,39 +494,39 @@ class SMC_Calendar_Page {
         $days_of_week = smc_get_days_of_week();
         
         ?>
-        <div class="smc-calendar-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <div class="smc-calendar-header">
             <a href="?page=school-management-calendar&view=week&date=<?php echo esc_attr( $prev_week->format('Y-m-d') ); ?>" class="button">
-                <span class="dashicons dashicons-arrow-left-alt2" style="vertical-align: middle;"></span>
+                <span class="dashicons dashicons-arrow-left-alt2"></span>
                 <?php esc_html_e( 'Previous Week', 'school-management-calendar' ); ?>
             </a>
-            
-            <h2 style="margin: 0;">
-                <?php 
-                echo esc_html( sprintf( 
+
+            <h2>
+                <?php
+                echo esc_html( sprintf(
                     __( '%s - %s', 'school-management-calendar' ),
                     $week_start->format('M j, Y'),
                     $week_end->format('M j, Y')
-                ) ); 
+                ) );
                 ?>
             </h2>
-            
+
             <a href="?page=school-management-calendar&view=week&date=<?php echo esc_attr( $next_week->format('Y-m-d') ); ?>" class="button">
                 <?php esc_html_e( 'Next Week', 'school-management-calendar' ); ?>
-                <span class="dashicons dashicons-arrow-right-alt2" style="vertical-align: middle;"></span>
+                <span class="dashicons dashicons-arrow-right-alt2"></span>
             </a>
         </div>
 
-        <table class="smc-calendar-week" style="width: 100%; border-collapse: collapse; border: 1px solid #ddd;">
+        <div class="smc-table-wrapper">
+        <table class="smc-calendar-week">
             <thead>
                 <tr>
-                    <th style="padding: 10px; background: #f0f0f1; border: 1px solid #ddd; width: 100px;"><?php esc_html_e( 'Time', 'school-management-calendar' ); ?></th>
+                    <th class="time-column"><?php esc_html_e( 'Time', 'school-management-calendar' ); ?></th>
                     <?php
                     $current = clone $week_start;
                     for ( $i = 0; $i < 7; $i++ ) {
                         $is_today = $current->format('Y-m-d') === date('Y-m-d');
-                        $style = $is_today ? 'background: #fff8e5; font-weight: bold;' : 'background: #f0f0f1;';
                         ?>
-                        <th style="padding: 10px; border: 1px solid #ddd; text-align: center; <?php echo esc_attr( $style ); ?>">
+                        <th<?php echo $is_today ? ' class="today"' : ''; ?>>
                             <?php echo esc_html( $current->format('D j') ); ?>
                         </th>
                         <?php
@@ -537,15 +540,15 @@ class SMC_Calendar_Page {
                 // Time slots from 8 AM to 6 PM
                 for ( $hour = 8; $hour < 18; $hour++ ) {
                     echo '<tr>';
-                    echo '<td style="padding: 10px; border: 1px solid #ddd; background: #f9f9f9; font-weight: bold; text-align: center;">';
+                    echo '<td class="time-cell">';
                     echo sprintf( '%02d:00', $hour );
                     echo '</td>';
-                    
+
                     $current = clone $week_start;
                     for ( $i = 0; $i < 7; $i++ ) {
                         $date_str = $current->format('Y-m-d');
                         $day_items = $items_by_date[ $date_str ] ?? [];
-                        
+
                         // Filter items for this hour
                         $hour_items = array_filter( $day_items, function( $item ) use ( $hour ) {
                             if ( $item['is_all_day'] ) return false;
@@ -553,19 +556,16 @@ class SMC_Calendar_Page {
                             $end_hour = intval( date( 'H', strtotime( $item['end_time'] ) ) );
                             return $start_hour <= $hour && $end_hour > $hour;
                         });
-                        
+
                         $is_today = $current->format('Y-m-d') === date('Y-m-d');
-                        $style = 'padding: 5px; border: 1px solid #ddd; vertical-align: top; min-height: 50px;';
-                        if ( $is_today ) {
-                            $style .= ' background: #fffef5;';
-                        }
-                        
-                        echo '<td style="' . esc_attr( $style ) . '">';
-                        
+
+                        echo '<td' . ( $is_today ? ' class="smc-today"' : '' ) . '>';
+
                         foreach ( $hour_items as $item ) {
                             $time_display = date( 'H:i', strtotime( $item['start_time'] ) );
+                            $item_type = $item['type'] === 'schedule' ? 'schedule' : 'event';
                             ?>
-                            <div style="margin-bottom: 3px; padding: 4px; background: <?php echo esc_attr( $item['color'] ); ?>; color: white; border-radius: 3px; font-size: 11px;">
+                            <div class="smc-week-item <?php echo esc_attr( $item_type ); ?>" style="background: <?php echo esc_attr( $item['color'] ); ?>;">
                                 <strong><?php echo esc_html( $time_display ); ?></strong><br>
                                 <?php echo esc_html( $item['title'] ); ?>
                                 <?php if ( $item['classroom'] ) : ?>
@@ -574,16 +574,17 @@ class SMC_Calendar_Page {
                             </div>
                             <?php
                         }
-                        
+
                         echo '</td>';
                         $current->modify('+1 day');
                     }
-                    
+
                     echo '</tr>';
                 }
                 ?>
             </tbody>
         </table>
+        </div>
         <?php
     }
 

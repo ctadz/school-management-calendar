@@ -230,14 +230,14 @@ class SMC_Schedules_Page {
             </div>
             <div>
                 <a href="?page=school-management-schedules&action=add" class="button button-primary">
-                    <span class="dashicons dashicons-plus-alt" style="vertical-align: middle;"></span>
+                    <span class="dashicons dashicons-plus-alt align-middle"></span>
                     <?php esc_html_e( 'Add New Schedule', 'school-management-calendar' ); ?>
                 </a>
             </div>
         </div>
 
         <?php if ( $schedules ) : ?>
-            <table class="wp-list-table widefat fixed striped">
+            <table class="wp-list-table widefat fixed striped mobile-card-layout">
                 <thead>
                     <tr>
                         <th><?php esc_html_e( 'Course', 'school-management-calendar' ); ?></th>
@@ -247,19 +247,35 @@ class SMC_Schedules_Page {
                         <th><?php esc_html_e( 'Teacher', 'school-management-calendar' ); ?></th>
                         <th><?php esc_html_e( 'Effective Period', 'school-management-calendar' ); ?></th>
                         <th><?php esc_html_e( 'Status', 'school-management-calendar' ); ?></th>
-                        <th style="width: 150px;"><?php esc_html_e( 'Actions', 'school-management-calendar' ); ?></th>
+                        <th><?php esc_html_e( 'Actions', 'school-management-calendar' ); ?></th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach ( $schedules as $schedule ) : ?>
                         <tr>
-                            <td><strong><?php echo esc_html( $schedule->course_name ); ?></strong></td>
-                            <td><?php echo esc_html( $days[ $schedule->day_of_week ] ?? '' ); ?></td>
-                            <td><?php echo esc_html( date( 'H:i', strtotime( $schedule->start_time ) ) . ' - ' . date( 'H:i', strtotime( $schedule->end_time ) ) ); ?></td>
-                            <td><?php echo esc_html( $schedule->classroom_name ?: '—' ); ?></td>
-                            <td><?php echo esc_html( $schedule->teacher_name ?: '—' ); ?></td>
-                            <td>
-                                <?php 
+                            <td data-label="<?php esc_attr_e( 'Course', 'school-management-calendar' ); ?>">
+                                <span class="mobile-label"><?php esc_html_e( 'Course', 'school-management-calendar' ); ?>:</span>
+                                <strong><?php echo esc_html( $schedule->course_name ); ?></strong>
+                            </td>
+                            <td data-label="<?php esc_attr_e( 'Day', 'school-management-calendar' ); ?>">
+                                <span class="mobile-label"><?php esc_html_e( 'Day', 'school-management-calendar' ); ?>:</span>
+                                <?php echo esc_html( $days[ $schedule->day_of_week ] ?? '' ); ?>
+                            </td>
+                            <td data-label="<?php esc_attr_e( 'Time', 'school-management-calendar' ); ?>">
+                                <span class="mobile-label"><?php esc_html_e( 'Time', 'school-management-calendar' ); ?>:</span>
+                                <?php echo esc_html( date( 'H:i', strtotime( $schedule->start_time ) ) . ' - ' . date( 'H:i', strtotime( $schedule->end_time ) ) ); ?>
+                            </td>
+                            <td data-label="<?php esc_attr_e( 'Classroom', 'school-management-calendar' ); ?>">
+                                <span class="mobile-label"><?php esc_html_e( 'Classroom', 'school-management-calendar' ); ?>:</span>
+                                <?php echo esc_html( $schedule->classroom_name ?: '—' ); ?>
+                            </td>
+                            <td data-label="<?php esc_attr_e( 'Teacher', 'school-management-calendar' ); ?>">
+                                <span class="mobile-label"><?php esc_html_e( 'Teacher', 'school-management-calendar' ); ?>:</span>
+                                <?php echo esc_html( $schedule->teacher_name ?: '—' ); ?>
+                            </td>
+                            <td data-label="<?php esc_attr_e( 'Effective Period', 'school-management-calendar' ); ?>">
+                                <span class="mobile-label"><?php esc_html_e( 'Effective Period', 'school-management-calendar' ); ?>:</span>
+                                <?php
                                 echo esc_html( date( 'M d, Y', strtotime( $schedule->effective_from ) ) );
                                 if ( $schedule->effective_until ) {
                                     echo ' → ' . esc_html( date( 'M d, Y', strtotime( $schedule->effective_until ) ) );
@@ -268,27 +284,36 @@ class SMC_Schedules_Page {
                                 }
                                 ?>
                             </td>
-                            <td>
+                            <td data-label="<?php esc_attr_e( 'Status', 'school-management-calendar' ); ?>">
+                                <span class="mobile-label"><?php esc_html_e( 'Status', 'school-management-calendar' ); ?>:</span>
                                 <?php if ( $schedule->is_active ) : ?>
-                                    <span style="color: #46b450;">● <?php esc_html_e( 'Active', 'school-management-calendar' ); ?></span>
+                                    <span class="sm-status-badge sm-status-active">
+                                        <span class="sm-status-dot"></span>
+                                        <?php esc_html_e( 'Active', 'school-management-calendar' ); ?>
+                                    </span>
                                 <?php else : ?>
-                                    <span style="color: #dc3232;">● <?php esc_html_e( 'Inactive', 'school-management-calendar' ); ?></span>
+                                    <span class="sm-status-badge sm-status-inactive">
+                                        <span class="sm-status-dot"></span>
+                                        <?php esc_html_e( 'Inactive', 'school-management-calendar' ); ?>
+                                    </span>
                                 <?php endif; ?>
                             </td>
-                            <td>
+                            <td data-label="<?php esc_attr_e( 'Actions', 'school-management-calendar' ); ?>" class="actions">
                                 <a href="?page=school-management-schedules&action=edit&schedule_id=<?php echo intval( $schedule->id ); ?>" class="button button-small">
-                                    <span class="dashicons dashicons-edit" style="vertical-align: middle;"></span>
+                                    <span class="dashicons dashicons-edit align-middle"></span>
+                                    <span class="button-text"><?php esc_html_e( 'Edit', 'school-management-calendar' ); ?></span>
                                 </a>
                                 <?php
-                                $delete_url = wp_nonce_url( 
-                                    '?page=school-management-schedules&delete=' . intval( $schedule->id ), 
-                                    'smc_delete_schedule_' . intval( $schedule->id ) 
+                                $delete_url = wp_nonce_url(
+                                    '?page=school-management-schedules&delete=' . intval( $schedule->id ),
+                                    'smc_delete_schedule_' . intval( $schedule->id )
                                 );
                                 ?>
-                                <a href="<?php echo esc_url( $delete_url ); ?>" 
+                                <a href="<?php echo esc_url( $delete_url ); ?>"
                                    class="button button-small button-link-delete"
                                    onclick="return confirm('<?php echo esc_js( __( 'Are you sure you want to delete this schedule?', 'school-management-calendar' ) ); ?>')">
-                                    <span class="dashicons dashicons-trash" style="vertical-align: middle; color: #d63638;"></span>
+                                    <span class="dashicons dashicons-trash align-middle text-danger"></span>
+                                    <span class="button-text"><?php esc_html_e( 'Delete', 'school-management-calendar' ); ?></span>
                                 </a>
                             </td>
                         </tr>
