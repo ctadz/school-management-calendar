@@ -571,3 +571,4 @@ msgstr ""
 
 msgid "Activate License"
 msgstr "Activer la licence"
+
