@@ -30,6 +30,23 @@ define( 'SMC_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 // Development mode - set to false when ready to sell
 define( 'SMC_DEV_MODE', true );
 
+// Include GitHub updater for automatic plugin updates
+require_once SMC_PLUGIN_DIR . 'includes/class-smc-github-updater.php';
+
+/**
+ * Initialize automatic updates from GitHub
+ */
+function smc_init_github_updater() {
+	if ( is_admin() ) {
+		new SMC_GitHub_Updater(
+			SMC_PLUGIN_FILE,
+			'ahmedsebaa/school-management-calendar', // GitHub repository
+			null // GitHub token (optional, set in wp-config.php: define('SMC_GITHUB_TOKEN', 'your_token'))
+		);
+	}
+}
+add_action( 'admin_init', 'smc_init_github_updater' );
+
 /**
  * Check if core School Management plugin is active
  */
