@@ -132,7 +132,7 @@ class SMC_GitHub_Updater {
 		$update_data = $this->get_update_data();
 
 		// If there's a newer version available
-		if ( $update_data && version_compare( $this->current_version, $update_data->version, '<' ) ) {
+		if ( $update_data && version_compare( $this->current_version, $update_data->new_version, '<' ) ) {
 			$transient->response[ $this->plugin_basename ] = $update_data;
 		} else {
 			// Mark as no update available
@@ -164,7 +164,7 @@ class SMC_GitHub_Updater {
 		$update_data = (object) array(
 			'slug'          => $this->plugin_slug,
 			'plugin'        => $this->plugin_basename,
-			'new_version'   => $release->tag_name,
+			'new_version'   => ltrim( $release->tag_name, 'v' ), // Strip 'v' prefix for version comparison
 			'url'           => $release->html_url,
 			'package'       => $release->zipball_url,
 			'tested'        => $this->get_tested_wp_version( $release ),
