@@ -547,6 +547,21 @@ msgstr "Samedi"
 msgid "Sunday"
 msgstr "Dimanche"
 
+msgid "Edit"
+msgstr "Modifier"
+
+msgid "Delete"
+msgstr "Supprimer"
+
+msgid "No Courses/Classes"
+msgstr "Pas de cours/classes"
+
+msgid "No regular courses/classes should occur during this event"
+msgstr "Aucun cours/classe régulier ne doit avoir lieu pendant cet événement"
+
+msgid "When checked, scheduled courses will not be displayed for this date in the calendar and schedules."
+msgstr "Si coché, les cours programmés ne seront pas affichés pour cette date dans le calendrier et les horaires."
+
 msgid ""
 "requires the core School Management plugin to be installed and activated."
 msgstr ""
