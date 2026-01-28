@@ -13,11 +13,11 @@ class SMC_Activator {
         self::create_tables();
         self::set_default_options();
         self::check_updates(); // Run database updates
-        
+
         // Store version
         update_option( 'smc_version', SMC_VERSION );
-        update_option( 'smc_db_version', '1.1.0' ); // Database version
-        
+        update_option( 'smc_db_version', '1.2.0' ); // Database version
+
         // Set activation flag
         update_option( 'smc_activated', current_time( 'mysql' ) );
     }
@@ -63,6 +63,7 @@ class SMC_Activator {
             description TEXT NULL,
             event_type VARCHAR(30) NOT NULL,
             event_date DATE NOT NULL,
+            event_end_date DATE NULL COMMENT 'For multi-day events like vacations',
             start_time TIME NULL,
             end_time TIME NULL,
             is_all_day TINYINT(1) DEFAULT 0,
@@ -77,6 +78,7 @@ class SMC_Activator {
             updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
             INDEX idx_event_type (event_type),
             INDEX idx_event_date (event_date),
+            INDEX idx_event_end_date (event_end_date),
             INDEX idx_course (course_id),
             INDEX idx_teacher (teacher_id),
             INDEX idx_public (is_public)
@@ -112,19 +114,18 @@ class SMC_Activator {
      */
     public static function check_updates() {
         $current_db_version = get_option( 'smc_db_version', '1.0.0' );
-        
+
         // Update to 1.1.0 if needed (adds no_courses field)
         if ( version_compare( $current_db_version, '1.1.0', '<' ) ) {
             self::update_to_1_1_0();
             update_option( 'smc_db_version', '1.1.0' );
         }
-        
-        // Future updates can be added here
-        // Example:
-        // if ( version_compare( $current_db_version, '1.2.0', '<' ) ) {
-        //     self::update_to_1_2_0();
-        //     update_option( 'smc_db_version', '1.2.0' );
-        // }
+
+        // Update to 1.2.0 if needed (adds event_end_date field for vacation periods)
+        if ( version_compare( $current_db_version, '1.2.0', '<' ) ) {
+            self::update_to_1_2_0();
+            update_option( 'smc_db_version', '1.2.0' );
+        }
     }
 
     /**
@@ -133,32 +134,73 @@ class SMC_Activator {
      */
     private static function update_to_1_1_0() {
         global $wpdb;
-        
+
         $table_events = $wpdb->prefix . 'smc_events';
-        
+
         // Check if no_courses column already exists
         $column_exists = $wpdb->get_results(
             $wpdb->prepare(
-                "SELECT * FROM INFORMATION_SCHEMA.COLUMNS 
-                 WHERE TABLE_SCHEMA = %s 
-                 AND TABLE_NAME = %s 
+                "SELECT * FROM INFORMATION_SCHEMA.COLUMNS
+                 WHERE TABLE_SCHEMA = %s
+                 AND TABLE_NAME = %s
                  AND COLUMN_NAME = 'no_courses'",
                 DB_NAME,
                 $table_events
             )
         );
-        
+
         // Add column if it doesn't exist
         if ( empty( $column_exists ) ) {
             $wpdb->query(
-                "ALTER TABLE $table_events 
-                 ADD COLUMN no_courses TINYINT(1) DEFAULT 0 
-                 COMMENT 'If 1, no courses/classes should occur during this event' 
+                "ALTER TABLE $table_events
+                 ADD COLUMN no_courses TINYINT(1) DEFAULT 0
+                 COMMENT 'If 1, no courses/classes should occur during this event'
                  AFTER is_all_day"
             );
-            
+
             // Log the update (optional, for debugging)
             error_log( 'SMC: Database updated to 1.1.0 - Added no_courses field to events table' );
+        }
+    }
+
+    /**
+     * Update database to version 1.2.0
+     * Adds event_end_date field to events table for multi-day vacation periods
+     */
+    private static function update_to_1_2_0() {
+        global $wpdb;
+
+        $table_events = $wpdb->prefix . 'smc_events';
+
+        // Check if event_end_date column already exists
+        $column_exists = $wpdb->get_results(
+            $wpdb->prepare(
+                "SELECT * FROM INFORMATION_SCHEMA.COLUMNS
+                 WHERE TABLE_SCHEMA = %s
+                 AND TABLE_NAME = %s
+                 AND COLUMN_NAME = 'event_end_date'",
+                DB_NAME,
+                $table_events
+            )
+        );
+
+        // Add column if it doesn't exist
+        if ( empty( $column_exists ) ) {
+            $wpdb->query(
+                "ALTER TABLE $table_events
+                 ADD COLUMN event_end_date DATE NULL
+                 COMMENT 'For multi-day events like vacations'
+                 AFTER event_date"
+            );
+
+            // Add index for the new field
+            $wpdb->query(
+                "ALTER TABLE $table_events
+                 ADD INDEX idx_event_end_date (event_end_date)"
+            );
+
+            // Log the update (optional, for debugging)
+            error_log( 'SMC: Database updated to 1.2.0 - Added event_end_date field to events table' );
         }
     }
 }

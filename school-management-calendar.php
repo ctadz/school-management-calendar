@@ -3,7 +3,7 @@
  * Plugin Name: School Management - Calendar & Schedule
  * Plugin URI: https://github.com/ahmedsebaa/school-management-calendar
  * Description: Advanced scheduling and calendar system for School Management plugin. Manage course schedules, events, and timetables.
- * Version: 1.0.2
+ * Version: 1.1.0
  * Requires at least: 5.8
  * Requires PHP: 7.4
  * Requires Plugins: school-management
@@ -21,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Define plugin constants
-define( 'SMC_VERSION', '1.0.2' );
+define( 'SMC_VERSION', '1.1.0' );
 define( 'SMC_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'SMC_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'SMC_PLUGIN_FILE', __FILE__ );

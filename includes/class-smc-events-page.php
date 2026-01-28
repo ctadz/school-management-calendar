@@ -18,6 +18,7 @@ class SMC_Events_Page {
         $description = sanitize_textarea_field( trim( $post_data['description'] ?? '' ) );
         $event_type = sanitize_text_field( $post_data['event_type'] ?? '' );
         $event_date = sanitize_text_field( trim( $post_data['event_date'] ?? '' ) );
+        $event_end_date = ! empty( $post_data['event_end_date'] ) ? sanitize_text_field( trim( $post_data['event_end_date'] ) ) : null;
         $is_all_day = isset( $post_data['is_all_day'] ) ? 1 : 0;
         $no_courses = isset( $post_data['no_courses'] ) ? 1 : 0;
         $start_time = $is_all_day ? null : sanitize_text_field( trim( $post_data['start_time'] ?? '' ) );
@@ -54,6 +55,16 @@ class SMC_Events_Page {
             $errors[] = __( 'Event date must be in YYYY-MM-DD format.', 'school-management-calendar' );
         }
 
+        // Validate end date format if provided
+        if ( ! empty( $event_end_date ) && ! preg_match( '/^\d{4}-\d{2}-\d{2}$/', $event_end_date ) ) {
+            $errors[] = __( 'Event end date must be in YYYY-MM-DD format.', 'school-management-calendar' );
+        }
+
+        // Validate end date is after start date
+        if ( ! empty( $event_date ) && ! empty( $event_end_date ) && strtotime( $event_end_date ) < strtotime( $event_date ) ) {
+            $errors[] = __( 'Event end date must be after or equal to start date.', 'school-management-calendar' );
+        }
+
         // Validate time format and logic (if not all-day)
         if ( ! $is_all_day ) {
             if ( empty( $start_time ) ) {
@@ -88,6 +99,7 @@ class SMC_Events_Page {
                     'description' => $description,
                     'event_type' => $event_type,
                     'event_date' => $event_date,
+                    'event_end_date' => $event_end_date,
                     'start_time' => $start_time,
                     'end_time' => $end_time,
                     'is_all_day' => $is_all_day,
@@ -449,6 +461,7 @@ class SMC_Events_Page {
                 'description' => sanitize_textarea_field( $_POST['description'] ?? '' ),
                 'event_type' => sanitize_text_field( $_POST['event_type'] ?? '' ),
                 'event_date' => sanitize_text_field( $_POST['event_date'] ?? '' ),
+                'event_end_date' => sanitize_text_field( $_POST['event_end_date'] ?? '' ),
                 'is_all_day' => isset( $_POST['is_all_day'] ),
                 'no_courses' => isset( $_POST['no_courses'] ),
                 'start_time' => sanitize_text_field( $_POST['start_time'] ?? '' ),
@@ -465,6 +478,7 @@ class SMC_Events_Page {
                 'description' => $event->description,
                 'event_type' => $event->event_type,
                 'event_date' => $event->event_date,
+                'event_end_date' => $event->event_end_date ?? '',
                 'is_all_day' => $event->is_all_day,
                 'no_courses' => $event->no_courses,
                 'start_time' => $event->start_time,
@@ -482,6 +496,7 @@ class SMC_Events_Page {
                 'description' => '',
                 'event_type' => 'special_event',
                 'event_date' => date( 'Y-m-d' ),
+                'event_end_date' => '',
                 'is_all_day' => false,
                 'no_courses' => false,
                 'start_time' => '09:00',
@@ -566,6 +581,16 @@ class SMC_Events_Page {
                     </th>
                     <td>
                         <input type="date" id="event_date" name="event_date" value="<?php echo esc_attr( $form_data['event_date'] ); ?>" required />
+                    </td>
+                </tr>
+
+                <tr>
+                    <th scope="row">
+                        <label for="event_end_date"><?php esc_html_e( 'Event End Date', 'school-management-calendar' ); ?></label>
+                    </th>
+                    <td>
+                        <input type="date" id="event_end_date" name="event_end_date" value="<?php echo esc_attr( $form_data['event_end_date'] ?? '' ); ?>" />
+                        <p class="description"><?php esc_html_e( 'Leave empty for single-day events. For vacations or multi-day holidays, set the last day of the event.', 'school-management-calendar' ); ?></p>
                     </td>
                 </tr>
 
