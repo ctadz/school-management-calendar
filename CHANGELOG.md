@@ -2,6 +2,30 @@
 
 All notable changes to the School Management Calendar plugin will be documented in this file.
 
+## [1.1.1] - 2026-02-26
+
+### Changed
+- **Payment Date Calculation**: Completely rewritten vacation-aware payment logic
+  - New `smc_calculate_subscription_payment_date()` function for accurate date calculation
+  - New `smc_add_months_preserve_day()` function to preserve original day of month
+  - New `smc_add_vacation_days_between()` function for proper vacation day counting
+
+### Fixed
+- **Day Preservation**: Payment dates now correctly maintain the original enrollment start day
+  - Example: Jan 31 → Feb 28 → Mar 31 → Apr 30 → May 31
+  - Handles months with different day counts properly
+
+- **Vacation Calculation**: Fixed vacation day calculation logic
+  - If payment date falls inside vacation: uses offset from vacation start
+  - If vacation is between payments: adds full vacation duration
+  - Handles overlapping and multiple vacation periods correctly
+  - Once vacation adjusts a date, subsequent payments follow new pattern
+
+### Technical
+- Added recursive vacation checking (max 5 iterations) to handle consecutive vacations
+- Improved debug logging for payment date calculations
+- Deprecated old `smc_calculate_next_payment_date()` in favor of new function
+
 ## [1.1.0] - 2026-01-28
 
 ### Added
